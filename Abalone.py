@@ -1,3 +1,5 @@
+from turtle import color
+from django.shortcuts import redirect
 import pygame as pg
 from Board import Board
 import math
@@ -9,6 +11,10 @@ import sys
 from button import Button
 import time
 import pygame
+import tkinter as tk
+from tkinter import ttk
+from tkinter.colorchooser import askcolor
+from tkinter import colorchooser
 
 pg.init()
 
@@ -16,7 +22,14 @@ pg.init()
 LEVEL = 3
 LEVEL_BOOL = False
 
+color_1 = "#0a0a0a" #black
+# color_1 = "#242529" #black
 
+
+color_2 = "#f7f7f7" #white
+color_3 = "#fc0f03" #red
+color_4 = "#09db21" #green
+color_5 = "#092cdb" #blue
 # self.boardState = [[9,9,9,9,9,9],
 #                           [9,2,2,2,2,2,9],
 #                          [9,2,2,2,2,2,2,9],
@@ -33,7 +46,7 @@ LEVEL_BOOL = False
 
 def ok(SOLO = False):
 
-    global LEVEL, LEVEL_BOOL
+    global LEVEL, LEVEL_BOOL, color_1, color_2, color_3, color_4, color_5
 
     MAX, MIN = 10000, -10000
 
@@ -74,11 +87,15 @@ def ok(SOLO = False):
     GOOD = True
 
 
+
+
+
+
     # time.sleep(5)
 
     board = Board(board_center, board_lenght, screen, dims)
     board.initialize()
-    board.draw(current_ball)
+    board.draw(current_ball, color_1, color_2, color_3, color_4, color_5)
 
 
 
@@ -110,22 +127,55 @@ def ok(SOLO = False):
             PLAY_QUIT.update(screen)
 
 
+    
+            # OPTIONS_TEXT = get_font(25).render(TXT, True, "White")
+            # OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1200, 600))
+            # SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+            # SHOW_LEVEL = ""
+
             TXT = ""
             if LEVEL == 3:
                 TXT += "GAME-LEVEL : EASY"
             else:
                 TXT += "GAME-LEVEL : HARD"
+            SHOW_LEVEL = Button(image=None, pos=(1200, 600), 
+                                text_input=TXT, font=get_font(25), base_color="White", hovering_color="Green")
 
-            OPTIONS_TEXT = get_font(25).render(TXT, True, "White")
-            OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1200, 600))
-            SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+            if not SOLO:
+                # TXT = ""
+                # if LEVEL == 3:
+                #     TXT += "GAME-LEVEL : EASY"
+                # else:
+                #     TXT += "GAME-LEVEL : HARD"
+                # SHOW_LEVEL = Button(image=None, pos=(1200, 600), 
+                #                     text_input=TXT, font=get_font(25), base_color="White", hovering_color="Green")
+
+                SHOW_LEVEL.update(screen)
+
 
             PLAY_TURN = Button(image=None, pos=(1200, 700), 
-                                text_input="TURN : WHITE", font=get_font(25), base_color="White", hovering_color="Green")  
-            PLAY_TURN.update(screen)
+                                text_input="TURN : Player2", font=get_font(25), base_color=color_2, hovering_color="Green")  
+           
+            score_1 = "Player 1 : "+str(board.scoreblack)
+            score_2 = "Player 2 : "+str(board.scorewhite)
+
+            if color_1 == "#0a0a0a":
+                SCORE_1_P = Button(image=None, pos=(1200, 800),     
+                                    text_input=score_1, font=get_font(20), base_color="White", hovering_color="Green")
+            else:
+                SCORE_1_P = Button(image=None, pos=(1200, 800),     
+                                    text_input=score_1, font=get_font(20), base_color=color_1, hovering_color="Green")
+            SCORE_2_P = Button(image=None, pos=(1200, 850), 
+                                text_input=score_2, font=get_font(20), base_color=color_2, hovering_color="Green")
+
+            for value in [SCORE_1_P, SCORE_2_P, PLAY_TURN]:
+                value.update(screen)
+
             # pygame.display.update()
 
             pygame.draw.line(screen, "Gray", (950, 0), (950, 920))
+            pygame.draw.line(screen, "Gray", (950, 410), (1440, 410))
 
             
             for event in pg.event.get():
@@ -146,7 +196,9 @@ def ok(SOLO = False):
                     if PLAY_QUIT.checkForInput(PLAY_MOUSE_POS):
                         pg.quit()        
 
-
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                        if SHOW_LEVEL.checkForInput(PLAY_MOUSE_POS):
+                            options()  
                 if event.type == pg.QUIT:
                     ended = True
 
@@ -193,29 +245,65 @@ def ok(SOLO = False):
             PLAY_QUIT.update(screen)
 
 
+
+            # OPTIONS_TEXT = get_font(25).render(TXT, True, "White")
+            # OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1200, 600))
+            # SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+
             TXT = ""
             if LEVEL == 3:
                 TXT += "GAME-LEVEL : EASY"
             else:
                 TXT += "GAME-LEVEL : HARD"
+            SHOW_LEVEL = Button(image=None, pos=(1200, 600), 
+                                text_input=TXT, font=get_font(25), base_color="White", hovering_color="Green")
 
-            OPTIONS_TEXT = get_font(25).render(TXT, True, "White")
-            OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1200, 600))
-            SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+            if not SOLO:
+                
+                # TXT = ""
+                # if LEVEL == 3:
+                #     TXT += "GAME-LEVEL : EASY"
+                # else:
+                #     TXT += "GAME-LEVEL : HARD"
+                # SHOW_LEVEL = Button(image=None, pos=(1200, 600), 
+                #                     text_input=TXT, font=get_font(25), base_color="White", hovering_color="Green")
 
-            
+                SHOW_LEVEL.update(screen)
 
             PLAY_TURN = Button(image=None, pos=(1200, 700), 
-                                text_input="TURN : Black", font=get_font(25), base_color="White", hovering_color="Green")
+                                text_input="TURN : Player1", font=get_font(25), base_color=color_1, hovering_color="Green")
 
-            PLAY_TURN.update(screen)
+            score_1 = "Player 1 : "+str(board.scoreblack)
+            score_2 = "Player 2 : "+str(board.scorewhite)
+
+            if color_1 == "#0a0a0a":
+                PLAY_TURN = Button(image=None, pos=(1200, 700), 
+                                text_input="TURN : Player1", font=get_font(25), base_color="White", hovering_color="Green")
+                SCORE_1_P = Button(image=None, pos=(1200, 800),     
+                                    text_input=score_1, font=get_font(20), base_color="White", hovering_color="Green")
+            else:
+                PLAY_TURN = Button(image=None, pos=(1200, 700), 
+                                text_input="TURN : Player1", font=get_font(25), base_color=color_1, hovering_color="Green")
+                SCORE_1_P = Button(image=None, pos=(1200, 800),     
+                                    text_input=score_1, font=get_font(20), base_color=color_1, hovering_color="Green")
+
+            SCORE_2_P = Button(image=None, pos=(1200, 850), 
+                                text_input=score_2, font=get_font(20), base_color=color_2, hovering_color="Green")
+
+            for value in [SCORE_1_P, SCORE_2_P, PLAY_TURN]:
+                value.update(screen)
+
+            # PLAY_TURN.update(screen)
 
             pygame.draw.line(screen, "Gray", (950, 0), (950, 920))
+            pygame.draw.line(screen, "Gray", (950, 410), (1440, 410))
+
             
             
 
             if SOLO:
-                board.draw(current_ball)
+                board.draw(current_ball, color_1, color_2, color_3, color_4, color_5)
                 pg.display.flip()
 
                 for event in pg.event.get():
@@ -228,7 +316,10 @@ def ok(SOLO = False):
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                             screen.fill(Colors.BLACK)
-                            main_menu()                  
+                            main_menu()   
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if SHOW_LEVEL.checkForInput(PLAY_MOUSE_POS):
+                            options()                
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if PLAY_QUIT.checkForInput(PLAY_MOUSE_POS):
                             pg.quit()  
@@ -260,7 +351,7 @@ def ok(SOLO = False):
 
             else:
                 if GOOD:
-                    board.draw(current_ball)
+                    board.draw(current_ball, color_1, color_2, color_3, color_4, color_5)
                     pg.display.flip()
                     # new_move = board.minimax(3, root, False, float('-inf'),float('inf')).move
                     new_move = board.minimax(LEVEL, root, LEVEL_BOOL, float('-inf'),float('inf')).move
@@ -288,7 +379,7 @@ def ok(SOLO = False):
             SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
             # ended = True
             GOOD = False
-        board.draw(current_ball)
+        board.draw(current_ball, color_1, color_2, color_3, color_4, color_5)
         #board.generate_moves(board.boardState, 2)
         pg.display.flip()
 
@@ -307,17 +398,28 @@ def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)
 
 
+
+
+
+
   
 def options():
-    global LEVEL, LEVEL_BOOL
+    global LEVEL, LEVEL_BOOL, color_1, color_2, color_3, color_4, color_5
 
     while True:
         OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
-        SCREEN.fill("white")
+        # SCREEN.fill("white")
+        SCREEN.blit(BG, (0, 0))
 
-        OPTIONS_TEXT = get_font(65).render("GAME-LEVEL", True, "Black")
+        color2 = "White"
+
+
+        OPTIONS_TEXT = get_font(65).render("GAME-LEVEL", True, "#b68f40")
         OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(740, 100))
+        SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+        OPTIONS_TEXT = get_font(65).render("----------", True, "#b68f40")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(740, 150))
         SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
         level_color = "#03fc1c"
@@ -327,20 +429,61 @@ def options():
             LEVEL_EASY = Button(image=None, pos=(600, 200), 
                                 text_input="Easy", font=get_font(35), base_color=level_color, hovering_color="Green")
             LEVEL_HARD = Button(image=None, pos=(850, 200), 
-                                text_input="Hard", font=get_font(35), base_color="Black", hovering_color="Green") 
+                                text_input="Hard", font=get_font(35), base_color=color2, hovering_color="Green") 
         else:
             LEVEL_EASY = Button(image=None, pos=(600, 200), 
-                            text_input="Easy", font=get_font(35), base_color="Black", hovering_color="Green")
+                            text_input="Easy", font=get_font(35), base_color=color2, hovering_color="Green")
             LEVEL_HARD = Button(image=None, pos=(850, 200), 
                             text_input="Hard", font=get_font(35), base_color=level_color, hovering_color="Green") 
 
 
-        OPTIONS_BACK = Button(image=None, pos=(640, 460), 
-                            text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
 
-        for button in [LEVEL_EASY, LEVEL_HARD, OPTIONS_BACK]:
+
+        OPTIONS_TEXT = get_font(65).render("THEME", True, "#b68f40")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(740, 350))
+        SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+        OPTIONS_TEXT = get_font(65).render("-----", True, "#b68f40")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(740, 390))
+        SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+
+        OPTIONS_TEXT = get_font(35).render("Player-1", True, "White")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(450, 450))
+        SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+        OPTIONS_TEXT = get_font(35).render("Player-2", True, "White")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1050, 450))
+        SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+
+
+        PLAYER_1_COLOR = Button(image=None, pos=(450, 550), 
+                            text_input="CHOOSE", font=get_font(25), base_color=color_1, hovering_color="Green")    
+
+        PLAYER_2_COLOR = Button(image=None, pos=(1050, 550), 
+                            text_input="CHOOSE", font=get_font(25), base_color=color_2, hovering_color="Green")
+
+        # colors = askcolor()
+
+        RESET_ALL = Button(image=None, pos=(760, 700), 
+                            text_input="RESET SETTINGS", font=get_font(45), base_color="#b68f40", hovering_color="Green")
+
+        OPTIONS_BACK = Button(image=None, pos=(760, 800), 
+                            text_input="BACK", font=get_font(45), base_color=color2, hovering_color="Green")
+
+        for button in [LEVEL_EASY, LEVEL_HARD, PLAYER_1_COLOR, PLAYER_2_COLOR, RESET_ALL, OPTIONS_BACK]:
             button.changeColor(OPTIONS_MOUSE_POS)
             button.update(SCREEN)
+
+
+        
+
+
+
+
+
+
 
         # OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
         # OPTIONS_BACK.update(SCREEN)
@@ -360,6 +503,19 @@ def options():
                 if LEVEL_HARD.checkForInput(OPTIONS_MOUSE_POS):
                     LEVEL = 4
                     LEVEL_BOOL = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAYER_1_COLOR.checkForInput(OPTIONS_MOUSE_POS):
+                    colors_c_1 = colorchooser.askcolor(title = "COLOR")
+                    color_1 = colors_c_1[1]
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PLAYER_2_COLOR.checkForInput(OPTIONS_MOUSE_POS):
+                    colors_c_2 = askcolor()
+                    color_2 = colors_c_2[1]
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if RESET_ALL.checkForInput(OPTIONS_MOUSE_POS):
+                    # colors_c_2 = askcolor()
+                    color_1 = "Black"
+                    color_2 = "White"
 
         pygame.display.update()
 
@@ -372,7 +528,7 @@ def main_menu():
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("MAIN MENU", True, "#b68f40")
+        MENU_TEXT = get_font(100).render("ABALONE", True, "Yellow")
         MENU_RECT = MENU_TEXT.get_rect(center=(740, 200))
 
         kk = pygame.image.load("assets/Play Rect.png")
@@ -381,13 +537,13 @@ def main_menu():
         color = "#03fce3"
 
         PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"), pos=(740, 350), 
-                            text_input="PLAY", font=get_font(75), base_color=color, hovering_color="White")
+                            text_input="PLAY", font=get_font(55), base_color=color, hovering_color="White")
         PLAY_BUTTON_F = Button(image=kk, pos=(740, 500), 
-                            text_input="PLAY WITH FRIEND", font=get_font(75), base_color=color, hovering_color="White")
+                            text_input="PLAY WITH FRIEND", font=get_font(55), base_color=color, hovering_color="White")
         OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Options Rect.png"), pos=(740, 650), 
-                            text_input="SETTINGS", font=get_font(75), base_color=color, hovering_color="White")
+                            text_input="SETTINGS", font=get_font(55), base_color=color, hovering_color="White")
         QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"), pos=(740, 800), 
-                            text_input="QUIT", font=get_font(75), base_color=color, hovering_color="White")
+                            text_input="QUIT", font=get_font(55), base_color=color, hovering_color="White")
 
         SCREEN.blit(MENU_TEXT, MENU_RECT)
 

@@ -89,25 +89,25 @@ class Board:
     def initialize(self):
         self.initCoords()
 
-    def draw(self, current_ball):
+    def draw(self, current_ball, color_1, color_2, color_3, color_4, color_5):
         pygame.draw.polygon(self.screen, Colors.BROWN, self.vertices) # drew the background
         for i in range(9): # draw the balls
             for j in range(len(self.grid[i])):
                 if self.boardState[i + 1][j + 1] == 0:
                     self.grid[i][j] = pygame.draw.circle(self.screen, Colors.LIGHTBROWN, self.coords[i][j], self.field_r)
                 if self.boardState[i + 1][j + 1] == 1:
-                    self.grid[i][j] = pygame.draw.circle(self.screen, Colors.WHITE, self.coords[i][j], self.ball_r)
+                    self.grid[i][j] = pygame.draw.circle(self.screen, color_2, self.coords[i][j], self.ball_r)
                 if self.boardState[i + 1][j + 1] == 2:
-                    self.grid[i][j] = pygame.draw.circle(self.screen, Colors.BLACK, self.coords[i][j], self.ball_r)
+                    self.grid[i][j] = pygame.draw.circle(self.screen, color_1, self.coords[i][j], self.ball_r)
 
         for i in range(self.scoreblack):
-            #  pygame.draw.circle(self.screen, Colors.WHITE, (270 + i*(2*self.ball_r + self.gap), 120), self.ball_r)
-             pygame.draw.circle(self.screen, Colors.WHITE, (270 + i*(2*self.ball_r + self.gap), 120), self.ball_r)
+            #  pygame.draw.circle(self.screen, color_2, (270 + i*(2*self.ball_r + self.gap), 120), self.ball_r)
+             pygame.draw.circle(self.screen, color_2, (270 + i*(2*self.ball_r + self.gap), 120), self.ball_r)
 
 
         for i in range(self.scorewhite): # draw when a point is hit
             # print("CHECK")
-            pygame.draw.circle(self.screen, Colors.BLACK, (270 + i*(2*self.ball_r + self.gap), 800), self.ball_r)
+            pygame.draw.circle(self.screen, color_1, (270 + i*(2*self.ball_r + self.gap), 800), self.ball_r)
 
         if current_ball != 0:
             pygame.draw.circle(self.screen, Colors.GREEN, self.coords[current_ball[0]][current_ball[1]], self.ball_r)
