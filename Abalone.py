@@ -1,5 +1,5 @@
 from turtle import color
-from django.shortcuts import redirect
+# from django.shortcuts import redirect
 import pygame as pg
 from Board import Board
 import math
@@ -30,7 +30,7 @@ color_2 = "#f7f7f7" #white
 color_3 = "#fc0f03" #red
 color_4 = "#09db21" #green
 color_5 = "#092cdb" #blue
-# self.boardState = [[9,9,9,9,9,9],
+#         self.boardState = [[9,9,9,9,9,9],
 #                           [9,2,2,2,2,2,9],
 #                          [9,2,2,2,2,2,2,9],
 #                         [9,0,0,2,2,2,0,0,9],
@@ -226,6 +226,8 @@ def ok(SOLO = False):
                                     else:
                                         print("YOU CAN'T MOVE BLACK")
 
+
+
         if not white_turn:
             screen.fill(pygame.Color("black"))
             PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -353,6 +355,7 @@ def ok(SOLO = False):
                 if GOOD:
                     board.draw(current_ball, color_1, color_2, color_3, color_4, color_5)
                     pg.display.flip()
+                    # if board.scorewhite <= 5:
                     # new_move = board.minimax(3, root, False, float('-inf'),float('inf')).move
                     new_move = board.minimax(LEVEL, root, LEVEL_BOOL, float('-inf'),float('inf')).move
 
@@ -366,15 +369,15 @@ def ok(SOLO = False):
         if board.deleted == 1 or board.deleted == 2:
             board.deleted = 0
         if board.scorewhite == 6:
-            print('White won!')
-            OPTIONS_TEXT = get_font(40).render("WHITE WON!!!", True, "Green")
+            print('Player2 won!')
+            OPTIONS_TEXT = get_font(35).render("Player2 WON!!!", True, color_2)
             OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1200, 450))
             SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
             # ended = True
             GOOD = False
         if board.scoreblack == 6:
-            print('Black won!')
-            OPTIONS_TEXT = get_font(40).render("BLACK WON!!!", True, "Green")
+            print('Player1 won!')
+            OPTIONS_TEXT = get_font(35).render("Player1 WON!!!", True, color_1)
             OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(1200, 450))
             SCREEN.blit(OPTIONS_TEXT, OPTIONS_RECT)
             # ended = True
@@ -394,6 +397,9 @@ pygame.display.set_caption("Menu")
 
 BG = pygame.image.load("assets/Background.png")
 BG = pygame.transform.scale(BG, (1440,920))
+
+BG2 = pygame.image.load("assets/image1.jpeg")
+BG2 = pygame.transform.scale(BG2, (1440,920))
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)
 

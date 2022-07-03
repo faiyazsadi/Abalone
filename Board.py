@@ -287,7 +287,6 @@ class Board:
             if isMaximizingPlayer:
 
                 # class Node:
-
                 #     def __init__(self, grid, move, value, children):
                 #         self.grid = grid
                 #         self.move = move
