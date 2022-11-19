@@ -31,7 +31,7 @@ width: 40%;">
 <img src="IMAGES/17.png" style="display: block;
 margin-left: auto;
 margin-right: auto;
-width: 50%;"> 
+width: 80%;"> 
 
 <h2><u>Game UI:</u></h2>
 
