@@ -1,4 +1,4 @@
-<h1>Abalone</h1>
+<h1>OffTheBoard</h1>
 Abalone is a two-player abstract strategy board game. This is a fork from <a href="https://github.com/szymeklimek/Abalone">Abalone</a>. 
 It is redesigned with many extra options, functionalities and menu options.
 It is an AI game that uses <a href="https://www.javatpoint.com/mini-max-algorithm-in-ai">Min-Max</a> algorithm for making decisions at each Computers turn.
